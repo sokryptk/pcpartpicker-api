@@ -12,7 +12,6 @@ import (
 	"pcpartpicker-api/scraper"
 	"strconv"
 	"strings"
-	"sync"
 )
 
 func GetBuildGuides(w http.ResponseWriter, r *http.Request) {
@@ -139,12 +138,34 @@ func GetGuideDetails(w http.ResponseWriter, r *http.Request) {
 
 	desElements, _ := des.FindElements(selenium.ByCSSSelector, "h2, p")
 	isPart := 0
-
-	var wg sync.WaitGroup
-
 	for _, e := range desElements {
-		wg.Add(1)
-		go appendDescription(&isPart, e, &guideDetails, &wg)
+		tag, _ := e.TagName()
+		if tag == "h2" {
+			isPart = isPart + 1
+		}
+
+		text, _ := e.Text()
+
+		if tag != "h2" {
+			switch isPart {
+			case 1:
+				continue
+			case 2:
+				guideDetails.Description.CPU = fmt.Sprint(guideDetails.Description.CPU, text)
+			case 3:
+				guideDetails.Description.Motherboard = fmt.Sprint(guideDetails.Description.Motherboard, text)
+			case 4:
+				guideDetails.Description.Memory = fmt.Sprint(guideDetails.Description.Memory, text)
+			case 5:
+				guideDetails.Description.Storage = fmt.Sprint(guideDetails.Description.Storage, text)
+			case 6:
+				guideDetails.Description.GPU = fmt.Sprint(guideDetails.Description.GPU, text)
+			case 7:
+				guideDetails.Description.Case = fmt.Sprint(guideDetails.Description.Case, text)
+			case 8:
+				guideDetails.Description.PSU = fmt.Sprint(&guideDetails.Description.PSU, text)
+			}
+		}
 	}
 
 	commentNumber, _  := scraper.Instance.FindElement(selenium.ByCSSSelector, "#comments")
@@ -156,36 +177,4 @@ func GetGuideDetails(w http.ResponseWriter, r *http.Request) {
 
 	b, _ := json.Marshal(guideDetails)
 	cache.Put(path, b)
-}
-
-func appendDescription(isPart *int, e selenium.WebElement, guideDetails *entities.GuideDetails, wg *sync.WaitGroup) {
-	tag, _ := e.TagName()
-	if tag == "h2" {
-		*isPart = (*isPart) + 1
-	}
-
-	text, _ := e.Text()
-
-	if tag != "h2" {
-		switch *isPart {
-		case 1:
-			return
-		case 2:
-			guideDetails.Description.CPU = fmt.Sprint(guideDetails.Description.CPU, text)
-		case 3:
-			guideDetails.Description.Motherboard = fmt.Sprint(guideDetails.Description.Motherboard, text)
-		case 4:
-			guideDetails.Description.Memory = fmt.Sprint(guideDetails.Description.Memory, text)
-		case 5:
-			guideDetails.Description.Storage = fmt.Sprint(guideDetails.Description.Storage, text)
-		case 6:
-			guideDetails.Description.GPU = fmt.Sprint(guideDetails.Description.GPU, text)
-		case 7:
-			guideDetails.Description.Case = fmt.Sprint(guideDetails.Description.Case, text)
-		case 8:
-			guideDetails.Description.PSU = fmt.Sprint(&guideDetails.Description.PSU, text)
-		}
-	}
-
-	wg.Done()
 }
