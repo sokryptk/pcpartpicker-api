@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"pcpartpicker-api/api/entities"
 	"pcpartpicker-api/api/parse"
+	"pcpartpicker-api/cache"
 	"pcpartpicker-api/scraper"
 	"strconv"
 	"strings"
@@ -19,6 +20,16 @@ func GetBuildGuides(w http.ResponseWriter, r *http.Request) {
 
 	options := parse.Parser{BuildGuides: true, Region: region}
 	_, url := options.ParseToUrl()
+
+	if data, success := cache.RetrieveCache(url); success {
+		var db entities.GuideList
+
+		_ = json.Unmarshal(data, &db)
+
+		_ = json.NewEncoder(w).Encode(db)
+
+		return
+	}
 
 	if err := scraper.Instance.Get(url); err != nil {
 		log.Println(err)
@@ -77,11 +88,24 @@ func GetBuildGuides(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_ = json.NewEncoder(w).Encode(guidesList)
+
+	b, _ := json.Marshal(guidesList)
+	cache.Put(url, b)
 }
 
 func GetGuideDetails(w http.ResponseWriter, r *http.Request) {
 	path := r.Header.Get("path")
 	region := r.Header.Get("region")
+
+	if data, success := cache.RetrieveCache(path); success {
+		var db entities.GuideDetails
+
+		_ = json.Unmarshal(data, &db)
+
+		_ = json.NewEncoder(w).Encode(db)
+
+		return
+	}
 
 	err := scraper.Instance.Get(path)
 	if err != nil {
@@ -120,7 +144,7 @@ func GetGuideDetails(w http.ResponseWriter, r *http.Request) {
 
 	for _, e := range desElements {
 		wg.Add(1)
-		go appendDescription(isPart, e, &guideDetails, &wg)
+		go appendDescription(&isPart, e, &guideDetails, &wg)
 	}
 
 	commentNumber, _  := scraper.Instance.FindElement(selenium.ByCSSSelector, "#comments")
@@ -129,18 +153,21 @@ func GetGuideDetails(w http.ResponseWriter, r *http.Request) {
 	guideDetails.NumberOfComments, _ = strconv.Atoi(comText)
 
 	_ = json.NewEncoder(w).Encode(guideDetails)
+
+	b, _ := json.Marshal(guideDetails)
+	cache.Put(path, b)
 }
 
-func appendDescription(isPart int, e selenium.WebElement, guideDetails *entities.GuideDetails, wg *sync.WaitGroup) {
+func appendDescription(isPart *int, e selenium.WebElement, guideDetails *entities.GuideDetails, wg *sync.WaitGroup) {
 	tag, _ := e.TagName()
 	if tag == "h2" {
-		isPart = isPart + 1
+		*isPart = (*isPart) + 1
 	}
 
 	text, _ := e.Text()
 
 	if tag != "h2" {
-		switch isPart {
+		switch *isPart {
 		case 1:
 			return
 		case 2:

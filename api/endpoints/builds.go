@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"pcpartpicker-api/api/entities"
 	"pcpartpicker-api/api/parse"
+	"pcpartpicker-api/cache"
 	"pcpartpicker-api/scraper"
 	"strconv"
 	"sync"
@@ -54,6 +55,16 @@ func GetCompletedBuilds(w http.ResponseWriter, r *http.Request) {
 
 	_, url := p.ParseToUrl()
 
+	if data, success := cache.RetrieveCache(url); success {
+		var db []entities.Build
+
+		_ = json.Unmarshal(data, &db)
+
+		_ = json.NewEncoder(w).Encode(db)
+
+		return
+	}
+
 	if err := scraper.Instance.Get(url); err != nil {
 		log.Println(err)
 	}
@@ -87,6 +98,9 @@ func GetCompletedBuilds(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_ = json.NewEncoder(w).Encode(builds)
+
+	b, _ := json.Marshal(builds)
+	cache.Put(url, b)
 
 }
 
