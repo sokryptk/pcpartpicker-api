@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9743ebaa-b42b-414c-9ae6-a52851963d25" name="Default Changelist" comment="" />
+    <list default="true" id="9743ebaa-b42b-414c-9ae6-a52851963d25" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/endpoints/builds.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/endpoints/builds.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/entities/filter.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/entities/filter.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/parse/parse.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/parse/parse.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,10 +21,14 @@
     </option>
   </component>
   <component name="GOROOT" path="/usr/lib/go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
   </component>
   <component name="ProjectId" id="1ho1sfSnpeYlLf5lidQw0wll6if" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -63,6 +73,10 @@
     <proxy>direct</proxy>
   </component>
   <component name="WindowStateProjectService">
+    <state x="742" y="266" width="426" height="577" key="#com.intellij.ide.util.MemberChooser" timestamp="1601538863485">
+      <screen x="0" y="28" width="1920" height="1052" />
+    </state>
+    <state x="742" y="266" width="426" height="577" key="#com.intellij.ide.util.MemberChooser/0.28.1920.1052@0.28.1920.1052" timestamp="1601538863485" />
     <state width="1878" height="278" key="GridCell.Tab.0.bottom" timestamp="1600668763477">
       <screen x="0" y="28" width="1920" height="1052" />
     </state>
