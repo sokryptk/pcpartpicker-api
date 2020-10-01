@@ -28,6 +28,7 @@ func main() {
 	router.HandleFunc("/guides", endpoints.GetBuildGuides).Methods("GET")
 	router.HandleFunc("/gdetails", endpoints.GetGuideDetails)
 	router.HandleFunc("/parts", endpoints.GetPartsList)
+	router.HandleFunc("/completedBuilds", endpoints.GetCompletedBuilds).Methods("POST")
 
 
 	_ = http.ListenAndServe(getPort(), router)

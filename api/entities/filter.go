@@ -22,8 +22,8 @@ type SortOptions struct {
 }
 
 type priceOptions struct {
-	Min string `json:"min"`
-	Max string `json:"max"`
+	Min int `json:"min"`
+	Max int `json:"max"`
 }
 
 type publishedOptions struct {

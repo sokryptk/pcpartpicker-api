@@ -10,10 +10,10 @@ type Parser struct {
 	Region          string                 `json:"region"`
 	SystemBuilder   bool                   `json:"system_builder"`
 	BuildGuides     bool                   `json:"build_guides"`
-	CompletedBuilds completedBuildsOptions `json:"completed_builds"`
+	CompletedBuilds CompletedBuildsOptions `json:"completed_builds"`
 }
 
-type completedBuildsOptions struct {
+type CompletedBuildsOptions struct {
 	IsIt          bool                   `json:"is_it"`
 	SortOptions   entities.SortOptions   `json:"sort_options"`
 	FilterOptions entities.FilterOptions `json:"filter_options"`
@@ -36,18 +36,19 @@ func (p *Parser) ParseToUrl() (error, string) {
 		var sortOption string
 
 		switch {
-		case !p.CompletedBuilds.SortOptions.Newest:
-			sortOption = "#sort=-recents"
 		case p.CompletedBuilds.SortOptions.HighestPriced:
 			sortOption = "#sort=price"
 		case p.CompletedBuilds.SortOptions.HighestRated:
 			sortOption = "#sort=rating"
+		case !p.CompletedBuilds.SortOptions.Newest:
+			sortOption = "#sort=-recent"
 		default:
-			sortOption = "#sort=recents"
+			sortOption = "#sort=recent"
 		}
 
 		baseUrl = fmt.Sprint(baseUrl, sortOption)
 
+		baseUrl = appendPriceToUrl(baseUrl, p.CompletedBuilds.FilterOptions.Price.Min, p.CompletedBuilds.FilterOptions.Price.Max)
 		baseUrl = appendBoolToUrl(baseUrl, "F", p.CompletedBuilds.FilterOptions.Featured)
 		baseUrl = appendBoolToUrl(baseUrl, "C", p.CompletedBuilds.FilterOptions.Overclocked)
 		baseUrl = appendBoolToUrl(baseUrl, "B", p.CompletedBuilds.FilterOptions.BuildType)
@@ -73,6 +74,10 @@ func appendBoolToUrl(url string, param string, value *bool) string {
 		x = 1
 	}
 	return url + fmt.Sprintf("&%s=%d", param, x)
+}
+
+func appendPriceToUrl(url string, min int, max int) string {
+	return url + fmt.Sprintf("&X=%d00,%d00", min, max)
 }
 
 func appendBasicOptionsToUrl(url, param string, values []entities.BasicOptions) string {
