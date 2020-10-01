@@ -2,8 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9743ebaa-b42b-414c-9ae6-a52851963d25" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/cache/cache.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/endpoints/builds.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/endpoints/builds.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/endpoints/guides.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/endpoints/guides.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/endpoints/parts.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/endpoints/parts.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraper/scraper.go" beforeDir="false" afterPath="$PROJECT_DIR$/scraper/scraper.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,8 +46,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/ext" />
       <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/ext" />
     </key>
   </component>
   <component name="RunManager">

@@ -6,12 +6,23 @@ import (
 	"log"
 	"net/http"
 	"pcpartpicker-api/api/entities"
+	"pcpartpicker-api/cache"
 	"pcpartpicker-api/scraper"
 	"sync"
 )
 
 func GetPartsList(w http.ResponseWriter, r *http.Request) {
 	path := r.Header.Get("path")
+
+	if data, success := cache.RetrieveCache(path); success {
+		var db entities.Parts
+
+		_ = json.Unmarshal(data, &db)
+
+		_ = json.NewEncoder(w).Encode(db)
+
+		return
+	}
 
 	if err := scraper.Instance.Get(path); err != nil {
 		log.Println(err)
@@ -41,6 +52,9 @@ func GetPartsList(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_ = json.NewEncoder(w).Encode(parts)
+
+	b, _ := json.Marshal(parts)
+	cache.Put(path, b)
 }
 
 func appendComponents(comp selenium.WebElement, parts *entities.Parts, wg *sync.WaitGroup) {
