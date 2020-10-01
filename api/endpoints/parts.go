@@ -16,6 +16,9 @@ func GetPartsList(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 
+	handle, _ := scraper.Instance.CurrentWindowHandle()
+	defer scraper.Instance.CloseWindow(handle)
+
 	var parts entities.Parts
 
 	compat, _ := scraper.Instance.FindElement(selenium.ByCSSSelector, ".partlist__metrics p")

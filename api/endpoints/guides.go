@@ -23,6 +23,9 @@ func GetBuildGuides(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 
+	handle, _ := scraper.Instance.CurrentWindowHandle()
+	defer scraper.Instance.CloseWindow(handle)
+
 	var guidesList entities.GuideList
 
 	guides, _ := scraper.Instance.FindElements(selenium.ByCSSSelector, ".main-content .block")
@@ -83,6 +86,9 @@ func GetGuideDetails(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
+
+	handle, _ := scraper.Instance.CurrentWindowHandle()
+	defer scraper.Instance.CloseWindow(handle)
 
 	var guideDetails entities.GuideDetails
 

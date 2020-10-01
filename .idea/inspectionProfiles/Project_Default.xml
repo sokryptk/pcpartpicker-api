@@ -15,6 +15,7 @@
         <method importPath="math/rand" receiver="*Rand" name="Read" />
         <method importPath="github.com/tebeka/selenium" receiver="WebDriver" name="Quit" />
         <method importPath="github.com/tebeka/selenium" receiver="*Service" name="Stop" />
+        <method importPath="github.com/tebeka/selenium" receiver="WebDriver" name="CloseWindow" />
       </methods>
     </inspection_tool>
   </profile>
