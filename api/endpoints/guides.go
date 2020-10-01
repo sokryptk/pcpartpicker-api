@@ -88,8 +88,10 @@ func GetBuildGuides(w http.ResponseWriter, r *http.Request) {
 
 	_ = json.NewEncoder(w).Encode(guidesList)
 
-	b, _ := json.Marshal(guidesList)
-	cache.Put(url, b)
+	if guidesList.Categories != nil {
+		b, _ := json.Marshal(guidesList)
+		cache.Put(url, b)
+	}
 }
 
 func GetGuideDetails(w http.ResponseWriter, r *http.Request) {
