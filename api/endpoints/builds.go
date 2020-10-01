@@ -58,6 +58,9 @@ func GetCompletedBuilds(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 
+	handle, _ := scraper.Instance.CurrentWindowHandle()
+	defer scraper.Instance.CloseWindow(handle)
+
 	_ = scraper.Instance.Wait(func(wd selenium.WebDriver) (b bool, err error) {
 		e, _ := wd.FindElements(selenium.ByCSSSelector, ".logGroup__card")
 		if len(e) > 0 {

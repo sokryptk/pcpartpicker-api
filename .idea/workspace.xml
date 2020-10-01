@@ -4,9 +4,8 @@
     <list default="true" id="9743ebaa-b42b-414c-9ae6-a52851963d25" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/endpoints/builds.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/endpoints/builds.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/entities/filter.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/entities/filter.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/parse/parse.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/parse/parse.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/endpoints/guides.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/endpoints/guides.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/endpoints/parts.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/endpoints/parts.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
