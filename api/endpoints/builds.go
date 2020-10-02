@@ -2,6 +2,7 @@ package endpoints
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/tebeka/selenium"
 	"io/ioutil"
 	"log"
@@ -65,11 +66,16 @@ func GetCompletedBuilds(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := scraper.Instance.Get(url); err != nil {
+
+	if _, err := scraper.Instance.ExecuteScript(fmt.Sprintf("window.open('%s');", url), nil); err != nil {
 		log.Println(err)
 	}
 
+	windows, _ := scraper.Instance.WindowHandles()
+	_ = scraper.Instance.SwitchWindow(windows[len(windows)-1])
+
 	handle, _ := scraper.Instance.CurrentWindowHandle()
+	defer scraper.Instance.SwitchWindow(windows[0])
 	defer scraper.Instance.CloseWindow(handle)
 
 	_ = scraper.Instance.Wait(func(wd selenium.WebDriver) (b bool, err error) {

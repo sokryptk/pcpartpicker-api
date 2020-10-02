@@ -2,6 +2,7 @@ package endpoints
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/tebeka/selenium"
 	"log"
 	"net/http"
@@ -24,11 +25,15 @@ func GetPartsList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := scraper.Instance.Get(path); err != nil {
+	if _, err := scraper.Instance.ExecuteScript(fmt.Sprintf("window.open('%s');", path), nil); err != nil {
 		log.Println(err)
 	}
 
+	windows, _ := scraper.Instance.WindowHandles()
+	_ = scraper.Instance.SwitchWindow(windows[len(windows)-1])
+
 	handle, _ := scraper.Instance.CurrentWindowHandle()
+	defer scraper.Instance.SwitchWindow(windows[0])
 	defer scraper.Instance.CloseWindow(handle)
 
 	var parts entities.Parts

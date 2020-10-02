@@ -16,6 +16,7 @@
         <method importPath="github.com/tebeka/selenium" receiver="WebDriver" name="Quit" />
         <method importPath="github.com/tebeka/selenium" receiver="*Service" name="Stop" />
         <method importPath="github.com/tebeka/selenium" receiver="WebDriver" name="CloseWindow" />
+        <method importPath="github.com/tebeka/selenium" receiver="WebDriver" name="SwitchWindow" />
       </methods>
     </inspection_tool>
   </profile>
