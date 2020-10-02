@@ -12,6 +12,7 @@ import (
 	"pcpartpicker-api/scraper"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func GetBuildGuides(w http.ResponseWriter, r *http.Request) {
@@ -38,6 +39,20 @@ func GetBuildGuides(w http.ResponseWriter, r *http.Request) {
 	defer scraper.Instance.CloseWindow(handle)
 
 	var guidesList entities.GuideList
+
+	err := scraper.Instance.WaitWithTimeout(func(wd selenium.WebDriver) (b bool, err error) {
+		main, _  := wd.FindElements(selenium.ByCSSSelector, ".main-content .block")
+
+		if len(main) > 0 {
+			return true, nil
+		}
+
+		return false, nil
+	}, time.Minute)
+
+	if err != nil {
+		log.Println(err)
+	}
 
 	guides, _ := scraper.Instance.FindElements(selenium.ByCSSSelector, ".main-content .block")
 
