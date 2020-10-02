@@ -134,7 +134,7 @@ func appendEntitiesToBuild(card selenium.WebElement, build *entities.Build, wg *
 	title, _ := card.FindElement(selenium.ByCSSSelector, ".log__title a")
 	build.Title, _ = title.Text()
 
-	products, _ := card.FindElements(selenium.ByCSSSelector, "build__specs")
+	products, _ := card.FindElements(selenium.ByCSSSelector, ".build__specs")
 	for _, product := range products {
 		productTxt, _ := product.Text()
 		build.Products = append(build.Products, productTxt)
