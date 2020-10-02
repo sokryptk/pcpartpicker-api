@@ -41,7 +41,7 @@ func GetBuildGuides(w http.ResponseWriter, r *http.Request) {
 	var guidesList entities.GuideList
 
 	err := scraper.Instance.WaitWithTimeout(func(wd selenium.WebDriver) (b bool, err error) {
-		main, _  := wd.FindElements(selenium.ByCSSSelector, ".main-content .block")
+		main, _  := wd.FindElements(selenium.ByCSSSelector, ".guideGroup")
 
 		if len(main) > 0 {
 			return true, nil
