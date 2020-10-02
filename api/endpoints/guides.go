@@ -133,6 +133,19 @@ func GetGuideDetails(w http.ResponseWriter, r *http.Request) {
 
 	var guideDetails entities.GuideDetails
 
+	err = scraper.Instance.WaitWithTimeout(func(wd selenium.WebDriver) (b bool, err error) {
+		i, _ := wd.FindElements(selenium.ByCSSSelector, ".actionBoxGroup, .description")
+		if len(i) > 1 {
+			return true, nil
+		}
+
+		return false, nil
+	}, time.Minute)
+
+	if err != nil {
+		log.Println(err)
+	}
+
 	images, _ := scraper.Instance.FindElements(selenium.ByCSSSelector, ".gallery__image")
 	for _, image := range images {
 		src, _ := image.FindElement(selenium.ByCSSSelector, "img")

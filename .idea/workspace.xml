@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9743ebaa-b42b-414c-9ae6-a52851963d25" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/endpoints/guides.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/endpoints/guides.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraper/scraper.go" beforeDir="false" afterPath="$PROJECT_DIR$/scraper/scraper.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,6 +71,10 @@
     <proxy>direct</proxy>
   </component>
   <component name="WindowStateProjectService">
+    <state x="698" y="359" width="514" height="391" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1601619193833">
+      <screen x="0" y="28" width="1920" height="1052" />
+    </state>
+    <state x="698" y="359" width="514" height="391" key="#com.intellij.fileTypes.FileTypeChooser/0.28.1920.1052@0.28.1920.1052" timestamp="1601619193833" />
     <state x="742" y="266" width="426" height="577" key="#com.intellij.ide.util.MemberChooser" timestamp="1601538863485">
       <screen x="0" y="28" width="1920" height="1052" />
     </state>
