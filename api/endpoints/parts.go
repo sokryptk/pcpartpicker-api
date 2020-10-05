@@ -10,6 +10,7 @@ import (
 	"pcpartpicker-api/cache"
 	"pcpartpicker-api/scraper"
 	"sync"
+	"time"
 )
 
 func GetPartsList(w http.ResponseWriter, r *http.Request) {
@@ -48,6 +49,19 @@ func GetParts(path string) (entities.Parts, bool) {
 
 	var parts entities.Parts
 
+	err := scraper.Instance.WaitWithTimeout(func(wd selenium.WebDriver) (b bool, err error) {
+		wrapper, _ := wd.FindElements(selenium.ByCSSSelector, ".tr__product")
+		if len(wrapper) > 0 {
+			return true, nil
+		}
+
+		return false, nil
+	}, time.Minute)
+
+	if err != nil {
+		log.Println(err)
+	}
+
 	compat, _ := scraper.Instance.FindElement(selenium.ByCSSSelector, ".partlist__metrics p")
 	compatP, _ := compat.GetAttribute("class")
 
@@ -66,6 +80,8 @@ func GetParts(path string) (entities.Parts, bool) {
 		go appendComponents(comp, &parts, &wg)
 	}
 
+	wg.Wait()
+
 	return parts, false
 }
 
@@ -81,11 +97,21 @@ func appendComponents(comp selenium.WebElement, parts *entities.Parts, wg *sync.
 	name, _ := comp.FindElement(selenium.ByCSSSelector, ".td__name a")
 	nameText, _ := name.Text()
 
-	price, _ := comp.FindElement(selenium.ByCSSSelector, ".td__price a")
-	priceText, _ := price.Text()
+	var priceText string
+	price, err := comp.FindElement(selenium.ByCSSSelector, ".td__price a")
+	if err != nil  {
+		priceText = "No Prices Available"
+	} else {
+		priceText, _ = price.Text()
+	}
 
-	where, _ := comp.FindElement(selenium.ByCSSSelector, ".td__where a")
-	whereText, _ := where.GetAttribute("href")
+	var whereText string
+	where, err := comp.FindElement(selenium.ByCSSSelector, ".td__where a")
+	if err != nil {
+		whereText = "Not Available at any Place"
+	} else {
+		whereText, _ = where.GetAttribute("href")
+	}
 
 	switch cName {
 	case "CPU":

@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9743ebaa-b42b-414c-9ae6-a52851963d25" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/api/endpoints/guideDetails.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cache/sync/sync.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/endpoints/builds.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/endpoints/builds.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/endpoints/guides.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/endpoints/guides.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/endpoints/parts.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/endpoints/parts.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraper/scraper.go" beforeDir="false" afterPath="$PROJECT_DIR$/scraper/scraper.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,9 +42,11 @@
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="go.vendoring.notification.had.been.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cache/sync" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/ext" />
     </key>
@@ -97,6 +99,10 @@
       <screen x="0" y="28" width="1920" height="1052" />
     </state>
     <state width="1878" height="278" key="GridCell.Tab.0.right/0.28.1920.1052@0.28.1920.1052" timestamp="1600668763477" />
+    <state x="471" y="189" width="977" height="732" key="SettingsEditor" timestamp="1601878878052">
+      <screen x="0" y="28" width="1920" height="1052" />
+    </state>
+    <state x="471" y="189" width="977" height="732" key="SettingsEditor/0.28.1920.1052@0.28.1920.1052" timestamp="1601878878052" />
     <state x="100" y="128" width="1720" height="852" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1600668816758">
       <screen x="0" y="28" width="1920" height="1052" />
     </state>

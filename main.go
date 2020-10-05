@@ -5,11 +5,13 @@ import (
 	"net/http"
 	"os"
 	"pcpartpicker-api/api/endpoints"
+	"pcpartpicker-api/cache/sync"
 	"pcpartpicker-api/scraper"
 )
 
-
-
+func init() {
+	go sync.Sync()
+}
 
 func getPort() string {
 	p := os.Getenv("PORT")
