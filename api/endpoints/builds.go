@@ -45,27 +45,37 @@ func GetCompletedBuilds(w http.ResponseWriter, r *http.Request) {
 		sortOptions.Newest = true
 	}
 
-	p  := parse.Parser{
-		Region:          region,
+	p := parse.Parser{
+		Region: region,
 		CompletedBuilds: parse.CompletedBuildsOptions{
-			IsIt:true,
-			FilterOptions:filterOptions,
-			SortOptions: sortOptions,
+			IsIt:          true,
+			FilterOptions: filterOptions,
+			SortOptions:   sortOptions,
 		},
 	}
 
 	_, url := p.ParseToUrl()
 
+	builds, cached := GetBuilds(url)
+
+	_ = json.NewEncoder(w).Encode(builds)
+
+	if !cached {
+		b, _ := json.Marshal(builds)
+		cache.Put(url, b)
+	}
+
+}
+
+//Return true if value is retrieved from Cache, else false
+func GetBuilds(url string) ([]entities.Build, bool) {
 	if data, success := cache.RetrieveCache(url); success {
 		var db []entities.Build
 
 		_ = json.Unmarshal(data, &db)
 
-		_ = json.NewEncoder(w).Encode(db)
-
-		return
+		return db, true
 	}
-
 
 	if _, err := scraper.Instance.ExecuteScript(fmt.Sprintf("window.open('%s');", url), nil); err != nil {
 		log.Println(err)
@@ -103,11 +113,7 @@ func GetCompletedBuilds(w http.ResponseWriter, r *http.Request) {
 		builds = append(builds, build)
 	}
 
-	_ = json.NewEncoder(w).Encode(builds)
-
-	b, _ := json.Marshal(builds)
-	cache.Put(url, b)
-
+	return builds, false
 }
 
 func appendEntitiesToBuild(card selenium.WebElement, build *entities.Build, wg *sync.WaitGroup) {
@@ -116,10 +122,10 @@ func appendEntitiesToBuild(card selenium.WebElement, build *entities.Build, wg *
 	build.Path, _ = path.GetAttribute("href")
 
 	price, _ := card.FindElement(selenium.ByCSSSelector, ".log__price")
-	build.Price, _  = price.Text()
+	build.Price, _ = price.Text()
 
 	comments, _ := card.FindElement(selenium.ByCSSSelector, ".log__link--comments")
-	commentTxt, _  := comments.Text()
+	commentTxt, _ := comments.Text()
 	build.Comments, _ = strconv.Atoi(commentTxt)
 
 	followers, _ := card.FindElement(selenium.ByCSSSelector, ".log__link--followers")

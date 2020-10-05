@@ -15,14 +15,24 @@ import (
 func GetPartsList(w http.ResponseWriter, r *http.Request) {
 	path := r.Header.Get("path")
 
+	parts, cached := GetParts(path)
+
+	_ = json.NewEncoder(w).Encode(parts)
+
+	if !cached {
+		b, _ := json.Marshal(parts)
+		cache.Put(path, b)
+	}
+}
+
+//Returns true if value is retrieved from Cache, else false
+func GetParts(path string) (entities.Parts, bool) {
 	if data, success := cache.RetrieveCache(path); success {
 		var db entities.Parts
 
 		_ = json.Unmarshal(data, &db)
 
-		_ = json.NewEncoder(w).Encode(db)
-
-		return
+		return db, true
 	}
 
 	if _, err := scraper.Instance.ExecuteScript(fmt.Sprintf("window.open('%s');", path), nil); err != nil {
@@ -56,10 +66,7 @@ func GetPartsList(w http.ResponseWriter, r *http.Request) {
 		go appendComponents(comp, &parts, &wg)
 	}
 
-	_ = json.NewEncoder(w).Encode(parts)
-
-	b, _ := json.Marshal(parts)
-	cache.Put(path, b)
+	return parts, false
 }
 
 func appendComponents(comp selenium.WebElement, parts *entities.Parts, wg *sync.WaitGroup) {
@@ -79,7 +86,6 @@ func appendComponents(comp selenium.WebElement, parts *entities.Parts, wg *sync.
 
 	where, _ := comp.FindElement(selenium.ByCSSSelector, ".td__where a")
 	whereText, _ := where.GetAttribute("href")
-
 
 	switch cName {
 	case "CPU":
